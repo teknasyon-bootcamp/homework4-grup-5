@@ -33,7 +33,7 @@ require_once "post.class.php";
 
                             $db = new Post();
 
-                            //php2.members tablosuna VERİ EKLEME
+                            //odev.posts tablosuna VERİ EKLEME
                             if (isset($_POST["mySubmit"])) {
                                 $postTitle = $_POST["post_title"];
                                 $postContent = $_POST["post_content"];
