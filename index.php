@@ -22,7 +22,7 @@ require_once "post.class.php";
         <div class="row">
             <div class="col">
                 <div class="card mt-3 bg-light">
-                    
+
                     <div class="row">
                         <div class="col-4 card-body ">
                             <h2>POST</h2>
@@ -78,11 +78,24 @@ require_once "post.class.php";
 
                         <div class="mx-auto col-6 card-body">
 
+                            <!-- INFO MESAJ GÖSTERİMLERİ BAŞLANGIÇ-->
                             <?php
+                            if (isset($_GET["info"])) {
+                                echo '<h5 class="bg-dark text-warning p-3 ">' . $_GET["info"] . '</h5><br>';
+                            }
+                            ?>
+                            <!-- INFO MESAJ GÖSTERİMLERİ BİTİŞ-->
+
+                            <?php
+
                             if (isset($_GET["postid"])) {
                                 echo '<h5 class="bg-dark text-light p-3 ">POST İÇERİĞİ</h5><br>';
                                 $getID = $_GET["postid"];
                                 $myQuery = $db->getRow("SELECT*FROM posts WHERE post_id=? ", array($getID));
+                                if (!$myQuery->post_id) {
+                                    $message = "Böyle bir post yok!";
+                                    header("Location: index.php?info=$message");
+                                }
                                 echo "<h4>" . $myQuery->post_title . "</h4><hr>";
                                 echo $myQuery->post_content;
                             }
