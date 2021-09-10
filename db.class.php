@@ -2,28 +2,26 @@
 
 class DB
 {
-    
+
 
     public function __construct(
         private ?string $host = "mariadb",
         private ?string $root = "root",
         private ?string $root_password = "root",
-        private ?string $db_name = "odev",
-        private ?bool $connect = null
+        private ?string $db_name = "odev"
     ) {
 
-        //bağlantıyı paylaş
-        $this->ConnectDB();
 
-        if (!$this->connect) {
-            $pdo = new PDO("mysql:host=$host", $root, $root_password);
-            try {
-                $pdo->exec("CREATE DATABASE IF NOT EXISTS $this->db_name;
+
+        //create database
+        $pdo = new PDO("mysql:host=$host", $root, $root_password);
+        try {
+            $pdo->exec("CREATE DATABASE $this->db_name;
                 CREATE TABLE odev.posts ( post_id INT NOT NULL AUTO_INCREMENT , post_title TEXT NOT NULL , post_content TEXT NOT NULL , PRIMARY KEY (post_id));")
-                    or die(print_r($pdo->errorInfo(), true));
-            } catch (PDOException $e) {
-                echo "Tablo var!";
-            }
+                or die(print_r($pdo->errorInfo(), true));
+        } catch (PDOException $e) {
+            //eğer database varsa bağlantı yapacak
+            $this->ConnectDB();
         }
     }
 
@@ -43,15 +41,10 @@ class DB
     }
 
 
-
-
-
-
-
-
     public function __destruct()
     {
         //bağlantıyı kapat
         $this->pdo = null;
     }
 }
+
